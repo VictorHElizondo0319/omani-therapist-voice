@@ -18,7 +18,7 @@ from app.services.speech_service import SpeechService
 from app.services.ai_service import AIService
 from app.services.therapy_service import TherapyService
 from app.core.config import settings
-
+from scripts.init_database import main as init_db_main
 load_dotenv()
 
 # Initialize services
@@ -31,6 +31,7 @@ websocket_manager = WebSocketManager()
 async def lifespan(app: FastAPI):
     """Application lifespan management"""
     # Startup
+    init_db_main()  # Ensure database and tables are created
     Base.metadata.create_all(bind=engine)
     await speech_service.initialize()
     await ai_service.initialize()

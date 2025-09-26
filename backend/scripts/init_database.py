@@ -128,11 +128,6 @@ def main():
     
     print("🎉 Database initialization completed successfully!")
     print("")
-    print("Next steps:")
-    print("1. Start the backend server: cd backend && python main.py")
-    print("2. Start the frontend server: cd frontend && npm run dev")
-    print("3. Access the application at http://localhost:3000")
-    
     return True
 
 if __name__ == "__main__":

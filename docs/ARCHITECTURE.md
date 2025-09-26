@@ -20,9 +20,9 @@ The OMANI-Therapist-Voice system is a comprehensive mental health support chatbo
 #TODO
 ### 3. AI Services
 - **Primary Model**: OpenAI GPT-4o
-- **Fallback Model**: Anthropic Claude Opus 4
+- **Fallback Model**: Google Gemini 2.5
 - **Speech Services**: OpenAI GPT-4o
-- **Dual-Model Strategy**: 
+- **Dual-Model Strategy**: Check safety GPT-4o result through Google Gemini 2.5
 
 ### 4. Data Layer
 - **PostgreSQL**: Main database for conversation storage
@@ -31,11 +31,11 @@ The OMANI-Therapist-Voice system is a comprehensive mental health support chatbo
 ## Data Flow Architecture
 
 ```
-User Voice Input → Frontend Audio Capture → Backend Processing
-                                                          ↓
-AI STT → Therapy Analysis → AI Response Generation → Cultural Adaptation
-                                                          ↓
-TTS Synthesis  →    Frontend Audio Playback     →       User
+User Voice Input            →           Frontend Audio Capture          →               Backend Processing
+                                                                                                 ↓
+Cultural Adaptation  ← Duel Model Safety Check ←  AI Response Generation  ← Therapy Analysis ←  AI STT
+        ↓
+TTS Synthesis  →    AI TTS  → Frontend Audio Playback → User
 ```
 
 ## Security Architecture
