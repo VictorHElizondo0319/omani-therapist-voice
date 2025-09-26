@@ -26,18 +26,13 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/omani_therapist")
-    
-    # Redis
-    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
-    
+
     # AI Services
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
-    
-    # Azure Speech Services
-    AZURE_SPEECH_KEY: str = os.getenv("AZURE_SPEECH_KEY", "")
-    AZURE_SPEECH_REGION: str = os.getenv("AZURE_SPEECH_REGION", "eastus")
-    
+    OPENAI_API_MODEL: str = os.getenv("OPENAI_API_MODEL", "gpt-4o-mini")
+    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")
+    GOOGLE_AI_MODEL: str = os.getenv("GOOGLE_AI_MODEL", "gemini-2.5-flash-lite")
+
     # Performance Settings
     MAX_CONCURRENT_CONVERSATIONS: int = 100
     CONVERSATION_TIMEOUT_SECONDS: int = 1800  # 30 minutes
