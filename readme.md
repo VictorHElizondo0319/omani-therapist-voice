@@ -8,11 +8,10 @@ A comprehensive mental health support chatbot that communicates exclusively thro
 omani-therapist-voice/
 ├── frontend/                 # Next.js React application
 │   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── utils/          # Utility functions
-│   │   └── styles/         # CSS and styling
-│   ├── public/             # Static assets
+│   │   ├── components/    # React components
+│   │   ├── stores/        # Custom React hooks for store
+│   │   ├── utils/         # Utility functions
+│   │   └── app/           # React Page Layout
 │   └── package.json
 ├── backend/                 # FastAPI Python application
 │   ├── app/
@@ -23,15 +22,13 @@ omani-therapist-voice/
 │   │   └── utils/         # Utility functions
 │   ├── requirements.txt
 │   └── main.py
-├── docs/                   # Documentation
-├── tests/                  # Test files
-└── docker-compose.yml      # Container orchestration
+└── docs/                   # Documentation
 ```
 
 ## Features
 
 - **Real-time Voice Processing**: Audio capture, STT, and TTS in Omani Arabic
-- **Dual-Model AI**: GPT-4o with Claude Opus 4 fallback/validation
+- **Dual-Model AI**: GPT-4o with Google Gemini fallback/validation
 - **Cultural Sensitivity**: Gulf-specific mental health terminology
 - **Therapeutic Techniques**: CBT adaptation and crisis intervention
 - **Safety Protocols**: Suicide risk assessment and escalation
@@ -48,7 +45,7 @@ omani-therapist-voice/
 The system uses a microservices architecture with:
 - **Frontend**: Next.js with WebRTC for audio capture
 - **Backend**: FastAPI with async processing
-- **AI Models**: OpenAI GPT-4o
+- **AI Models**: OpenAI GPT-4o,Google Gemini
 - **Speech Services**: OpenAI Services for STT/TTS
 - **Database**: PostgreSQL for session storage
 
