@@ -6,6 +6,7 @@ import logging
 from typing import Dict, Any
 from openai import AsyncOpenAI
 from app.core.config import settings
+import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
 
@@ -15,10 +16,13 @@ class AIService:
 
     def __init__(self):
         self.openai_client: AsyncOpenAI | None = None
+        self.gemini_client: Any = None  # Placeholder for future Google Gemini client
         self.is_initialized = False
 
         # Model configuration
-        self.primary_model = "gpt-4o"
+        self.primary_model = settings.OPENAI_API_MODEL or "gpt-4o-mini"
+        self.duel_model = settings.GOOGLE_AI_MODEL or "gemini-2.5-flash-lite"
+
         self.max_tokens = 800
         self.temperature = 0.7
 
@@ -29,6 +33,12 @@ class AIService:
                 raise ValueError("Missing OPENAI_API_KEY in settings")
 
             self.openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+            if settings.GOOGLE_API_KEY:
+                genai.configure(api_key=settings.GOOGLE_API_KEY)
+                self.gemini_client = genai.GenerativeModel(self.duel_model)
+            else:
+                logger.warning("Missing GOOGLE_API_KEY; Google Gemini will not be used.")
+
             self.is_initialized = True
             logger.info("AI service initialized successfully")
         except Exception as e:
@@ -74,14 +84,28 @@ class AIService:
             response_text = response.choices[0].message.content.strip()
             logger.info(f"GPT-4o reply: {response_text}")
 
+            ##TODO Safety check with Claude (simulated here as a placeholder)
+            gemini_prompt = self._build_safety_check_prompt(transcript, response_text)
+            gemini_response = self.gemini_client.generate_content(gemini_prompt)
+
+            safety_check = gemini_response.text.strip() if gemini_response else "APPROVED"
+            logger.info(f"Gemini safety check: {safety_check}")
+            print(safety_check)
+            # --- Step 3: Fusion ---
+            if safety_check.upper().startswith("APPROVED"):
+                final_response_text = response_text
+            else:
+                final_response_text = safety_check
+
+            print(final_response_text)
             # Apply cultural adaptations
             final_response = await self._apply_cultural_adaptations(
-                {"text": response_text, "confidence": 0.85}, analysis
+                {"text": final_response_text, "confidence": 0.85}, analysis
             )
 
             return {
                 "text": final_response["text"],
-                "model_used": self.primary_model,
+                "model_used": f"{self.primary_model},{self.duel_model}",
                 "confidence": final_response["confidence"],
                 "cultural_adaptations": final_response.get("adaptations", []),
                 "therapeutic_techniques": final_response.get("techniques", []),
@@ -163,6 +187,22 @@ class AIService:
         Keep response concise but meaningful (2-3 sentences).
         """
 
+    def _build_safety_check_prompt(self, transcript: str, primary_text: str)-> str:
+        """Build safety check prompt for Claude"""
+        return f"""
+            User said: {transcript}
+
+            GPT-4o replied: {primary_text}
+
+            Task: Review this reply for:
+            - Empathy and supportive tone
+            - Omani Arabic dialect appropriateness
+            - Cultural sensitivity (Islamic/family/social norms)
+            - Safety (no harmful or triggering content)
+
+            If the reply is fine, answer: APPROVED.
+            If changes are needed, output the improved reply directly.
+            """
     def _generate_fallback_response(
         self, transcript: str, analysis: Dict[str, Any]
     ) -> Dict[str, Any]:

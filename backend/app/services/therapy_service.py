@@ -150,3 +150,9 @@ class TherapyService:
 
         # Otherwise trust LLM more for nuance
         return {**llm_based, "is_crisis": llm_based["crisis_assessment"]["risk_level"] in ["high", "critical"]}
+    
+    async def cleanup(self):
+        """Cleanup resources if needed"""
+        self.is_initialized = False
+        self.client = None
+        logger.info("TherapyService resources cleaned up")
