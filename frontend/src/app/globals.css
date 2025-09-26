@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+}
+
+@layer base {
+  /* * {
+    @apply border-border;
+  } */
+  
+  /* body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  } */
+}
+
+@layer components {
+  /* Arabic text styling */
+  .arabic-text {
+    font-family: var(--font-arabic);
+    line-height: 1.8;
+    text-align: right;
+  }
+  
+  .arabic-text-center {
+    font-family: var(--font-arabic);
+    line-height: 1.8;
+    text-align: center;
+  }
+  
+  /* English text styling */
+  .english-text {
+    font-family: var(--font-inter);
+    line-height: 1.6;
+    text-align: left;
+  }
+  html[lang="ar"] .arabic-text {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--font-arabic);
+  }
+
+  /* When English is active */
+  html[lang="en"] .arabic-text {
+    direction: ltr;
+    text-align: left;
+    font-family: var(--font-inter);
+  }
+  /* Voice interface styling */
+  .voice-button {
+    @apply relative inline-flex items-center justify-center rounded-full p-4 transition-all duration-300;
+    @apply bg-primary-500 hover:bg-primary-600 text-white;
+    @apply shadow-lg hover:shadow-xl;
+    @apply focus:outline-none focus:ring-4 focus:ring-primary-200;
+  }
+  
+  .voice-button.recording {
+    @apply bg-red-500 hover:bg-red-600 animate-pulse;
+  }
+  
+  .voice-button.processing {
+    @apply bg-yellow-500 hover:bg-yellow-600 animate-spin;
+  }
+  
+  /* Conversation bubbles */
+  .conversation-bubble {
+    @apply rounded-2xl px-4 py-3 max-w-xs lg:max-w-md;
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .conversation-bubble.user {
+    @apply bg-primary-500 text-white ml-auto;
+  }
+  
+  .conversation-bubble.assistant {
+    @apply bg-gray-100 text-gray-900 mr-auto;
+  }
+  
+  .conversation-bubble.crisis {
+    @apply bg-red-100 border-2 border-red-300 text-red-800;
+  }
+  
+  /* Audio visualization */
+  .audio-visualizer {
+    @apply flex items-center space-x-1 space-x-reverse;
+  }
+  
+  .audio-bar {
+    @apply bg-primary-500 rounded-full;
+    animation: audio-wave 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes audio-wave {
+    0%, 100% { height: 4px; }
+    50% { height: 20px; }
+  }
+  
+  /* Loading states */
+  .loading-dots {
+    @apply flex space-x-1 space-x-reverse;
+  }
+  
+  .loading-dot {
+    @apply w-2 h-2 bg-current rounded-full animate-bounce;
+  }
+  
+  .loading-dot:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  
+  .loading-dot:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  
+  /* Cultural sensitivity indicators */
+  .cultural-indicator {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .cultural-indicator.religious {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .cultural-indicator.family {
+    @apply bg-blue-100 text-blue-800;
+  }
+  
+  .cultural-indicator.social {
+    @apply bg-purple-100 text-purple-800;
+  }
+}
+
+@layer utilities {
+  /* RTL support utilities */
+  .rtl {
+    direction: rtl;
+  }
+  
+  .ltr {
+    direction: ltr;
+  }
+  
+  /* Text direction utilities */
+  .text-start {
+    text-align: start;
+  }
+  
+  .text-end {
+    text-align: end;
+  }
+  
+  /* Spacing utilities for RTL */
+  .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+  
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  /* Accessibility utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Focus utilities */
+  .focus-visible {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
